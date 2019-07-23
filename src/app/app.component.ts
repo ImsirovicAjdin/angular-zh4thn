@@ -108,5 +108,29 @@ In the containers template, we use property binding and define the nested compon
 explanation mine:
 The @Input() rating property from the nested component is bound to the root component, in the location where it calls the directive of the nested component: <pm-star [rating]="product.starRating">. As before, this is a one-way data binding of the [property] binding kind. We set the binding source as the value we want to pass in to the nested component. From class to template, we pass the product's star rating. The product's starRating property is now bound to the rating input property of the nested component. Any time the container data changes, the OnChanges lifecycle event is generated and the star width is recalculated. 
 
+Passing Data from a component using @Output
+###########################################
+
+The only way a nested component can pass data back to its root component is with an event. The data to pass becomes the event payload. In Angular, an event is defined with an EventEmitter object. So here we create a new instance of an event emitter:
+
+@Output() notify: EventEmitter<string> = new EventEmitter<string>();
+                  ^^^^^^^^^^^^^^^^^^^^
+
+^^^^^ = TypeScript supports generics. This syntax allows us to identify a specific type that the object instance will work with. When creating an event emitter, the generic argument <string> identifies the type of the event payload. If we want to pass a string value to the container in the event payload, we define a string here. In our example, we define a ******notify******* event with a string payload. 
+
+When the user clicks on the stars, the star component receives that event:
+<div (click)='onClick()'>
+  ... stars...
+</div>
+
+Raising an event:
+https://imgur.com/PgP1Ah9
+
+Continue at 08-05 (2:48)
+
+
+
+
+
 
 */
