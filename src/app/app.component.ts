@@ -69,5 +69,44 @@ export class StarComponent implements OnChanges {
 
 Using a Nested Component as a directive
 ##########################################
+Easy, just use <app-selector><app-selector> directive instead of {{ interpolation }}
 
-/*
+Passing Data to a Nested Component (@Input)
+###########################################
+
+// shortened files:
+
+product-list.component.ts:
+-------------------------
+@Component({
+  selector: 'pm-products',
+  templateURL: './product-list.component.html'
+})
+export class ProductListComponent { }
+
+product-list.component.html:
+---------------------------
+<td>
+  <pm-star [rating]='product.starRating'> <!------------ (2) 
+  </pm-star>
+</td>
+
+star.component.ts
+-----------------
+@Component({
+  selector: 'pm-star',
+  templateURL: './star.component.html'
+})
+export class StarComponent {
+  @Input() rating: number; <------------ (1)
+  starWidth: number;
+}
+
+explanation theirs:
+In the containers template, we use property binding and define the nested component's input property as the target of the binding, then we set the binding source to the value we want to pass into the nested component. In this example, we pass the product's star rating. That's it. The product.starRating property is now bound to the rating input property of the nested component. Any time the container data changes, the OnChanges lifecycle event is generated and the star width is recalculated. The appropriate number of stars are then displayed. Let's check it out in the browser. That looks better. But what if we want to send data back from our nested component to our container? Let's look at that next.
+
+explanation mine:
+The @Input() rating property from the nested component is bound to the root component, in the location where it calls the directive of the nested component: <pm-star [rating]="product.starRating">. As before, this is a one-way data binding of the [property] binding kind. We set the binding source as the value we want to pass in to the nested component. From class to template, we pass the product's star rating. The product's starRating property is now bound to the rating input property of the nested component. Any time the container data changes, the OnChanges lifecycle event is generated and the star width is recalculated. 
+
+
+*/
